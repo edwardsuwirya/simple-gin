@@ -14,7 +14,7 @@ func (j *JsonResponse) SendData(message ResponseMessage) {
 }
 
 func (j *JsonResponse) SendError(errMessage ErrorMessage) {
-	j.ctx.JSON(errMessage.HttpCode, errMessage)
+	j.ctx.AbortWithStatusJSON(errMessage.HttpCode, errMessage)
 }
 
 func NewJsonResponse(ctx *gin.Context) AppHttpResponse {

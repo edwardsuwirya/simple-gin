@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
@@ -14,6 +15,7 @@ func main() {
 	})
 	r.Use(DummyMiddleware)
 	r.Use(TokenAuthMiddleware())
+	r.Use(ErrorMiddleware())
 	productRoute := r.Group("/product")
 	productRoute.Use(DummyMiddleware)
 	productRoute.GET("", gettingWithQueryParam())
@@ -46,7 +48,7 @@ func posting() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var productReq ProductRequest
 		if err := c.ShouldBindJSON(&productReq); err != nil {
-			NewJsonResponse(c).SendError(NewErrorMessage(http.StatusBadRequest, "01", err.Error()))
+			c.Error(fmt.Errorf("%s", NewErrorMessage(http.StatusBadRequest, "01", err.Error()).ToJson()))
 			return
 		}
 		NewJsonResponse(c).SendData(NewResponseMessage("00", "Create Product", productReq))
