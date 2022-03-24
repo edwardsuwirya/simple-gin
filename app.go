@@ -12,8 +12,10 @@ func main() {
 			"message": "pong",
 		})
 	})
-
+	r.Use(DummyMiddleware)
+	r.Use(TokenAuthMiddleware())
 	productRoute := r.Group("/product")
+	productRoute.Use(DummyMiddleware)
 	productRoute.GET("", gettingWithQueryParam())
 	productRoute.GET("/:id", gettingWithPathVariable())
 	productRoute.POST("", posting())
