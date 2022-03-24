@@ -39,20 +39,16 @@ func gettingWithQueryParam() gin.HandlerFunc {
 func gettingWithPathVariable() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		productId := c.Param("id")
-		c.JSON(200, gin.H{
-			"message": productId,
-		})
+		NewJsonResponse(c).SendData(NewResponseMessage("00", "Product ID", productId))
 	}
 }
 func posting() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var productReq ProductRequest
 		if err := c.ShouldBindJSON(&productReq); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			NewJsonResponse(c).SendError(NewErrorMessage(http.StatusBadRequest, "01", err.Error()))
 			return
 		}
-		c.JSON(200, gin.H{
-			"message": productReq,
-		})
+		NewJsonResponse(c).SendData(NewResponseMessage("00", "Create Product", productReq))
 	}
 }
