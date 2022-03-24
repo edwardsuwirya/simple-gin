@@ -12,9 +12,11 @@ func main() {
 			"message": "pong",
 		})
 	})
-	r.GET("/product", gettingWithQueryParam())
-	r.GET("/product/:id", gettingWithPathVariable())
-	r.POST("/product", posting())
+
+	productRoute := r.Group("/product")
+	productRoute.GET("", gettingWithQueryParam())
+	productRoute.GET("/:id", gettingWithPathVariable())
+	productRoute.POST("", posting())
 
 	err := r.Run("localhost:3000")
 	if err != nil {
