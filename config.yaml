@@ -1,0 +1,10 @@
+productapp:
+  name: "Product App"
+  api:
+    url: "localhost:3001"
+  db:
+    host: "159.223.42.164"
+    port: "5432"
+    user: "postgres"
+    password: "P@ssw0rd"
+    name: "enigma"
