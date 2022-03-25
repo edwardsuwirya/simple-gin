@@ -1,4 +1,4 @@
-package main
+package apprequest
 
 type ProductRequest struct {
 	ProductCode string `json:"product_code"`

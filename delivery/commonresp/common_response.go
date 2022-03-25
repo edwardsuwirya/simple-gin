@@ -1,4 +1,4 @@
-package main
+package commonresp
 
 import (
 	"encoding/json"

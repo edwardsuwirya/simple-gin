@@ -1,7 +1,8 @@
-package main
+package middleware
 
 import (
 	"encoding/json"
+	"enigmacamp.com/simplegin/delivery/commonresp"
 	"fmt"
 	"github.com/gin-gonic/gin"
 	"log"
@@ -11,6 +12,7 @@ import (
 func DummyMiddleware(c *gin.Context) {
 	fmt.Println("Im a dummy!")
 	c.Next()
+	fmt.Println("Finish")
 }
 func ErrorMiddleware() gin.HandlerFunc {
 	return func(c *gin.Context) {
@@ -21,16 +23,16 @@ func ErrorMiddleware() gin.HandlerFunc {
 		}
 		e := detectedError.Error()
 
-		errResp := ErrorMessage{}
+		errResp := commonresp.ErrorMessage{}
 		err := json.Unmarshal([]byte(e), &errResp)
 		if err != nil {
 			errResp.HttpCode = 500
-			errResp.ErrorDescription = ErrorDescription{
+			errResp.ErrorDescription = commonresp.ErrorDescription{
 				Code:        "06",
 				Description: "Convert json failed",
 			}
 		}
-		NewJsonResponse(c).SendError(errResp)
+		commonresp.NewJsonResponse(c).SendError(errResp)
 	}
 }
 func TokenAuthMiddleware() gin.HandlerFunc {
